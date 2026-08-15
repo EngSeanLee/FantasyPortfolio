@@ -1,37 +1,43 @@
-import { SkyLayer } from "./SkyLayer";
-import { CloudLayer } from "./CloudLayer";
-import { MountainLayer } from "./MountainLayer";
-import { ObservatoryLayer } from "./ObservatoryLayer";
-import { MeadowLayer } from "./MeadowLayer";
-import { AtmosphereLayer } from "./AtmosphereLayer";
+import { Observatory } from "./Observatory";
 
 /**
- * A lighter-weight ambient backdrop for interior page headers. No scroll
- * parallax — just quiet ambient motion — so it never competes with content.
- * `distance` places the Observatory landmark closer as the visitor moves
- * deeper into the site (see brief §5.2).
+ * Interior-page backdrop. Per the approved art direction, inner pages
+ * should not repeat the hero's painterly landscape — they should feel like
+ * the visitor has moved toward warm ivory surfaces and restrained
+ * architectural line work, with the Observatory motif carried through as
+ * quiet continuity rather than a full scene.
  */
 export function SceneBackdrop({
   distance = "mid",
-  className = "h-[46vh] min-h-[380px]",
+  className = "h-[40vh] min-h-[320px]",
 }: {
   distance?: "far" | "mid" | "near";
   className?: string;
 }) {
+  const size = distance === "far" ? "20%" : distance === "mid" ? "30%" : "42%";
+
   return (
     <div className={`relative w-full overflow-hidden ${className}`}>
-      <SkyLayer />
-      <CloudLayer depth="far" />
-      <MountainLayer />
-      <ObservatoryLayer distance={distance} />
-      <MeadowLayer />
-      <AtmosphereLayer />
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, transparent 55%, var(--color-cloud) 100%)",
+            "linear-gradient(160deg, var(--color-cloud) 0%, var(--color-ivory) 55%, var(--color-champagne-light) 130%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute right-[6%] bottom-[8%]"
+        style={{ width: size }}
+      >
+        <Observatory className="w-full text-sage-dark opacity-70" detail={distance === "near" ? "near" : "distant"} />
+      </div>
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background: "linear-gradient(180deg, transparent 60%, var(--color-cloud) 100%)",
         }}
       />
     </div>

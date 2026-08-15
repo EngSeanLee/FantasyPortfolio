@@ -1,21 +1,19 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { SkyLayer } from "./SkyLayer";
-import { CloudLayer } from "./CloudLayer";
-import { MountainLayer } from "./MountainLayer";
-import { ObservatoryLayer } from "./ObservatoryLayer";
-import { TerraceLayer } from "./TerraceLayer";
-import { MeadowLayer } from "./MeadowLayer";
-import { ForegroundGrass } from "./ForegroundGrass";
 import { BirdLayer } from "./BirdLayer";
 import { AtmosphereLayer } from "./AtmosphereLayer";
+import heroArt from "@/public/environment/daylight-meadow-hero.jpg";
 
 /**
- * The full layered daylight-meadow hero. Scroll produces a very subtle
- * parallax push between layers — never enough to make reading difficult,
- * and disabled entirely under prefers-reduced-motion.
+ * The approved painterly reference — an original AI-illustrated daylight
+ * meadow with the Observatory landmark — anchored right, per the approved
+ * art direction: architecture dominates the right half, the left half stays
+ * calm enough to carry the professional interface content. A thin
+ * transparent SVG layer (birds, atmospheric motes) sits above it for
+ * ambient motion; it never stands in for the landscape itself.
  */
 export function HeroEnvironment({ children }: { children?: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -25,31 +23,44 @@ export function HeroEnvironment({ children }: { children?: React.ReactNode }) {
     offset: ["start start", "end start"],
   });
 
-  const mountainY = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 30]);
-  const terraceY = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 55]);
-  const meadowY = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 90]);
+  const artY = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 40]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -40]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.4]);
 
   return (
-    <div ref={ref} className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
-      <SkyLayer />
-      <CloudLayer depth="far" />
-      <motion.div style={{ y: mountainY }} className="absolute inset-0">
-        <MountainLayer />
+    <div ref={ref} className="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-cloud">
+      {/* Z-0 — approved painterly environment */}
+      <motion.div style={{ y: artY }} className="absolute inset-0">
+        <div className="absolute inset-y-0 right-0 w-full sm:w-[70%] lg:w-[62%]">
+          <Image
+            src={heroArt}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 640px) 100vw, 62vw"
+            className="object-cover object-[68%_center] sm:object-right"
+            style={{
+              maskImage: "linear-gradient(to right, transparent, black 22%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 22%)",
+            }}
+          />
+        </div>
+        {/* soft scrim on mobile so stacked text stays legible over the art */}
+        <div
+          aria-hidden
+          className="absolute inset-0 sm:hidden"
+          style={{
+            background:
+              "linear-gradient(180deg, var(--color-cloud) 0%, rgba(247,246,241,0.55) 32%, rgba(247,246,241,0.15) 55%, rgba(247,246,241,0.65) 82%, var(--color-cloud) 100%)",
+          }}
+        />
       </motion.div>
-      <ObservatoryLayer distance="far" />
-      <motion.div style={{ y: terraceY }} className="absolute inset-0">
-        <TerraceLayer />
-      </motion.div>
-      <CloudLayer depth="near" />
-      <motion.div style={{ y: meadowY }} className="absolute inset-0">
-        <MeadowLayer />
-      </motion.div>
-      <ForegroundGrass />
+
+      {/* Z-1 — transparent ambient motion overlay: birds + motes only */}
       <BirdLayer />
       <AtmosphereLayer />
 
+      {/* Z-2 — content */}
       {children && (
         <motion.div
           style={{ y: contentY, opacity: contentOpacity }}
