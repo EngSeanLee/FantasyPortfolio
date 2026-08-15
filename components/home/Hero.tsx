@@ -20,7 +20,7 @@ export function Hero() {
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: prefersReducedMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-xl rounded-lg bg-cloud/40 p-2 backdrop-blur-[2px] sm:bg-transparent sm:p-0 sm:backdrop-blur-0"
+            className="max-w-xl rounded-lg border border-champagne/40 bg-ivory/45 p-5 backdrop-blur-xl sm:border-transparent sm:bg-transparent sm:p-0 sm:backdrop-blur-none"
           >
             <Eyebrow className="text-sage-dark/80">{site.name}</Eyebrow>
             <h1 className="mt-4 font-display text-4xl leading-[1.08] text-sage-dark text-balance sm:text-5xl lg:text-6xl">

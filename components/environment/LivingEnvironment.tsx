@@ -1,5 +1,5 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import Image from "next/image";
+import heroArt from "@/public/environment/daylight-meadow-master.png";
 
 /**
  * The single, persistent world background. Mounted once in the root
@@ -7,27 +7,20 @@ import { join } from "node:path";
  * between routes. Every page reveals a window onto this exact same fixed
  * image; only the page content scrolling on top of it changes.
  *
- * The SVG is inlined (not loaded via <img src>) because it references an
- * external master PNG via <image href>, and SMIL-driven motion — browsers
- * refuse to fetch external resources or run SMIL for SVGs loaded as a
- * plain image source. Inlining gives it a real document context so both
- * work.
- *
- * Motion is intentionally restrained to clouds only, per the interaction
- * pivot — no birds, motes, water shimmer, or meadow wind. The painting
- * itself is the star.
+ * Static — no SVG, no motion, no distortion filters. The painterly
+ * reference is the visual source of truth; nothing should warp it.
  */
-const svgMarkup = readFileSync(
-  join(process.cwd(), "public/environment/daylight-meadow-clouds-only.svg"),
-  "utf-8"
-);
-
 export function LivingEnvironment() {
   return (
-    <div
-      aria-hidden
-      className="fixed inset-0 -z-10 bg-cloud [&_svg]:h-full [&_svg]:w-full"
-      dangerouslySetInnerHTML={{ __html: svgMarkup }}
-    />
+    <div aria-hidden className="fixed inset-0 -z-10 bg-cloud">
+      <Image
+        src={heroArt}
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+    </div>
   );
 }

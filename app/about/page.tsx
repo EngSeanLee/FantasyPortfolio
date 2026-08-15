@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { SceneBackdrop } from "@/components/environment/SceneBackdrop";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow, Divider } from "@/components/ui/SectionHeading";
+import { GlassPanel } from "@/components/ui/GlassPanel";
 import { Reveal } from "@/components/motion/Reveal";
 import { CareerJourney } from "@/components/about/CareerJourney";
 import { credentials } from "@/content/site";
@@ -13,58 +13,55 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <>
-      <SceneBackdrop distance="mid" className="h-[42vh] min-h-[340px]" />
-      <div className="relative -mt-16 bg-cloud sm:-mt-20">
-        <Container>
+    <div className="py-28 lg:py-16">
+      <Container>
+        <GlassPanel className="p-7 sm:p-10 lg:p-14">
           <Eyebrow>About</Eyebrow>
           <h1 className="mt-4 max-w-2xl font-display text-4xl leading-tight text-sage-dark text-balance sm:text-5xl">
             My career has centered on understanding complex operational problems and turning
             them into structured, executable solutions.
           </h1>
-        </Container>
 
-        <Container className="mt-16 grid gap-6 sm:mt-20 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <p className="text-base leading-relaxed text-stone-dark">
-              Experience in financial services and healthcare reinforced the importance of
-              governance, consistency, stakeholder alignment, and operational clarity.
+          <div className="mt-10 grid gap-6 lg:grid-cols-2 lg:gap-16">
+            <Reveal>
+              <p className="text-base leading-relaxed text-stone-dark">
+                Experience in financial services and healthcare reinforced the importance of
+                governance, consistency, stakeholder alignment, and operational clarity.
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-base leading-relaxed text-stone-dark">
+                AI gave me a new set of tools for solving the kinds of problems I have always
+                been drawn to.
+              </p>
+            </Reveal>
+          </div>
+
+          <div className="mt-14">
+            <Divider />
+            <p className="mt-8 text-xs font-medium uppercase tracking-[0.24em] text-sage">
+              Credentials
             </p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="text-base leading-relaxed text-stone-dark">
-              AI gave me a new set of tools for solving the kinds of problems I have always been
-              drawn to.
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {credentials.map((c) => (
+                <li
+                  key={c}
+                  className="border border-champagne/40 bg-cloud/50 px-4 py-4 text-sm leading-snug text-sage-dark"
+                >
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="mt-16">
+            <p className="mb-12 text-xs font-medium uppercase tracking-[0.24em] text-sage">
+              Career Journey
             </p>
-          </Reveal>
-        </Container>
+            <CareerJourney />
+          </div>
 
-        <Container className="mt-20 sm:mt-24">
-          <Divider />
-          <p className="mt-8 text-xs font-medium uppercase tracking-[0.24em] text-sage">
-            Credentials
-          </p>
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {credentials.map((c) => (
-              <li
-                key={c}
-                className="border border-stone bg-ivory px-4 py-4 text-sm leading-snug text-sage-dark"
-              >
-                {c}
-              </li>
-            ))}
-          </ul>
-        </Container>
-
-        <Container className="mt-24 sm:mt-28">
-          <p className="mb-12 text-xs font-medium uppercase tracking-[0.24em] text-sage">
-            Career Journey
-          </p>
-          <CareerJourney />
-        </Container>
-
-        <section className="mt-24 bg-ivory py-20 sm:mt-28">
-          <Container className="grid gap-10 sm:grid-cols-3">
+          <div className="mt-16 grid gap-10 border-t border-champagne/40 pt-14 sm:grid-cols-3">
             <Reveal>
               <h3 className="font-display text-xl text-sage-dark">Building</h3>
               <p className="mt-3 text-sm leading-relaxed text-stone-dark">
@@ -83,9 +80,9 @@ export default function AboutPage() {
                 Technology, games, creative projects, and figuring out how things work.
               </p>
             </Reveal>
-          </Container>
-        </section>
-      </div>
-    </>
+          </div>
+        </GlassPanel>
+      </Container>
+    </div>
   );
 }

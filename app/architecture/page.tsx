@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { SceneBackdrop } from "@/components/environment/SceneBackdrop";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/SectionHeading";
+import { GlassPanel } from "@/components/ui/GlassPanel";
 import { FrameworkExplorer } from "@/components/architecture/FrameworkExplorer";
 import { CapabilityMap } from "@/components/architecture/CapabilityMap";
 
@@ -12,10 +12,9 @@ export const metadata: Metadata = {
 
 export default function ArchitecturePage() {
   return (
-    <>
-      <SceneBackdrop distance="near" className="h-[42vh] min-h-[340px]" />
-      <div className="relative -mt-16 bg-cloud sm:-mt-20">
-        <Container>
+    <div className="py-28 lg:py-16">
+      <Container>
+        <GlassPanel className="p-7 sm:p-10 lg:p-14">
           <Eyebrow>Architecture</Eyebrow>
           <h1 className="mt-4 font-display text-4xl text-sage-dark sm:text-5xl">
             How I approach intelligent systems.
@@ -25,28 +24,26 @@ export default function ArchitecturePage() {
             operating problem, understood constraints, structured information, and intentional
             governance.
           </p>
-        </Container>
 
-        <Container className="mt-20 sm:mt-24">
-          <FrameworkExplorer />
-        </Container>
-
-        <Container id="capability-map" className="mt-24 scroll-mt-28 sm:mt-32">
-          <Eyebrow>Capability Map</Eyebrow>
-          <h2 className="mt-4 font-display text-3xl text-sage-dark sm:text-4xl">
-            Skills proven through project evidence.
-          </h2>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-stone-dark">
-            Every capability links back to a project that demonstrates it — not a self-assigned
-            proficiency score.
-          </p>
-          <div className="mt-12">
-            <CapabilityMap />
+          <div className="mt-16">
+            <FrameworkExplorer />
           </div>
-        </Container>
 
-        <div className="h-24" />
-      </div>
-    </>
+          <div id="capability-map" className="mt-20 scroll-mt-28 border-t border-champagne/40 pt-16">
+            <Eyebrow>Capability Map</Eyebrow>
+            <h2 className="mt-4 font-display text-3xl text-sage-dark sm:text-4xl">
+              Skills proven through project evidence.
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-stone-dark">
+              Every capability links back to a project that demonstrates it — not a self-assigned
+              proficiency score.
+            </p>
+            <div className="mt-12">
+              <CapabilityMap />
+            </div>
+          </div>
+        </GlassPanel>
+      </Container>
+    </div>
   );
 }

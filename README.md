@@ -21,29 +21,34 @@ Read the relevant ones before making structural or design changes.
 
 ## Status
 
-**Interaction pivot, Phase 1 (global shell) is complete.** Per §34 of the pivot doc:
+**Interaction pivot Phase 1 (global shell) is done, plus part of Phase 2 (the case-study
+viewer) done ahead of schedule** after direct user feedback that the case study had "too much
+scrolling."
 
-- Top navigation removed; **`NavRail`** (`components/navigation/NavRail.tsx`) is the primary
-  desktop nav — fixed left edge, labeled wayfinding nodes, active-state halo. `Nav.tsx` is now
-  mobile-only (top bar + drawer, `lg:hidden`).
-- **Home (`/`) is a single viewport** — just `Hero`, no stacked sections below it. The old
-  homepage sections (Systems Before Solutions, Featured Projects preview, Architecture preview,
-  Capability preview, About preview, Closing CTA) are unmounted from `/` but their component
-  files are still in `components/home/` — likely source material for Phases 2–4 below, not dead
-  code to delete casually.
-- Footer moved off the global layout; it now renders **only on `/resume`**, the one
-  intentionally conventional, fully-scrolling page.
-- Environment motion is clouds-only now (`daylight-meadow-clouds-only.svg`) — no birds/motes/
-  water shimmer/meadow wind. The painting is the star; see §3 of the pivot doc before adding
-  motion back.
+- `NavRail` (desktop, fixed left) + `Nav` (mobile top bar/drawer) — no top nav on desktop.
+- Home (`/`) is a single viewport — just `Hero`.
+- Footer renders **only on `/resume`**.
+- **The environment background is a static image, no SVG, no motion, no distortion filters.**
+  An earlier pass used an SVG wrapper (feTurbulence-driven cloud displacement) around the
+  master painting; the user disliked what it did to the photo, so it's gone —
+  `LivingEnvironment` now renders `daylight-meadow-master.png` directly via `next/image`.
+  Don't reintroduce SVG-driven distortion on this image without asking first.
+- **Content panels are frosted glass**, not opaque cards: `components/ui/GlassPanel.tsx`
+  (translucent ivory + `backdrop-blur-xl` + champagne border + soft shadow) is used on
+  Projects, Architecture, About, Contact, and the case-study viewer. The world stays visible
+  and blurred behind every panel — never fully hidden behind opaque color.
+- **The project case-study page is a chapter viewer, not a scrolling article**
+  (`components/case-study/CaseStudyViewer.tsx`). Numbered chapter tabs (Problem → Related
+  Systems, chapters without content just don't render) swap the content region in place —
+  effectively no vertical scrolling per project. `CaseSection.tsx` (the old stacked-section
+  approach) is gone.
 
-**Not yet built (Phases 2–4 of the pivot):** `/projects` is still the old scrolling archive
-list, not the System Map; the project case study is still a stacked-section article, not a
-chapter viewer; `/architecture` still stacks Framework + Capability Map instead of toggling
-between them in one viewport; `/about` still scrolls instead of using selectable panels. These
-routes work and look correct with the new shell (rail, persistent art), they just haven't had
-their *own* interaction model converted yet. Do that incrementally, one phase at a time, per
-§34 — each is a meaningfully sized unit of work on its own.
+**Not yet built (rest of Phase 2 + Phases 3–4 of the pivot):** `/projects` is still a scrolling
+archive list inside a glass panel, not the interactive System Map the pivot doc describes;
+`/architecture` still stacks Framework + Capability Map in one scrollable panel instead of
+toggling between two views; `/about` still scrolls inside its panel instead of using selectable
+areas. These all look and behave correctly with the new shell + glass treatment, they just
+haven't had their own deeper interaction-model conversion yet.
 
 **Also not yet real:** `content/site.ts` → `links` holds placeholder LinkedIn/email URLs and a
 null résumé file — wire these up before shipping.
@@ -51,24 +56,18 @@ null résumé file — wire these up before shipping.
 ## Environment art
 
 The world background is the approved painterly reference
-(`public/environment/daylight-meadow-master.png`), animated via
-`public/environment/daylight-meadow-clouds-only.svg` (slow cloud drift only, respects
-`prefers-reduced-motion`). It's mounted **once**, in `app/layout.tsx`, via
-`<LivingEnvironment />` — outside `{children}` — so it persists across every route without
-remounting or swapping. This matters: an earlier pass rendered different art per page, which
-read as a bug (the world visibly changing on navigation). Don't reintroduce that.
+(`public/environment/daylight-meadow-master.png`), rendered statically — no animation. It's
+mounted **once**, in `app/layout.tsx`, via `<LivingEnvironment />` — outside `{children}` — so
+it persists across every route without remounting or swapping. This matters: an earlier pass
+rendered different art per page, which read as a bug (the world visibly changing on
+navigation). Don't reintroduce that.
 
 Pages don't render their own art; they open a transparent window onto the fixed background
-(`HeroEnvironment` on `/`, `SceneBackdrop` elsewhere) that fades into solid content below. If
-you add a new page with a header band, follow the same pattern: transparent window at the top,
-then give the content wrapper below it an explicit `bg-cloud` (or similar) — otherwise that
-page's content renders transparently over the fixed art. See `app/projects/page.tsx` for the
-reference pattern. `main` carries `lg:pl-44` globally to clear the fixed rail's width — the
-persistent art is still visible through that gap on every page, which is intentional.
-
-The SVG is inlined server-side (`readFileSync` + `dangerouslySetInnerHTML`) rather than loaded
-via `<img src>` — browsers don't fetch external resources (the `<image href>` master PNG) or
-run SMIL inside an img-sourced SVG.
+(`HeroEnvironment` on `/`) or sit in a translucent `GlassPanel` over it (every other page) —
+never an opaque full-bleed section. If you add a new page, follow one of those two patterns;
+an opaque `bg-cloud` wrapper with no transparency defeats the entire persistent-world premise.
+`main` carries `lg:pl-44` globally to clear the fixed rail's width — the persistent art is
+still visible through that gap on every page, which is intentional.
 
 ## Development
 
@@ -86,15 +85,15 @@ Requires Node.js 20+.
 ```
 app/                    routes (App Router)
 components/
-  environment/          LivingEnvironment (persistent world), HeroEnvironment/SceneBackdrop
-                         (transparent windows onto it), ArrivalReveal (cloud intro)
+  environment/          LivingEnvironment (persistent world, static image),
+                         HeroEnvironment (transparent window, home only), ArrivalReveal
   navigation/            NavRail (desktop), Nav (mobile top bar + drawer), Footer (resume only)
   home/                  homepage sections — currently only Hero is mounted on `/`
   projects/              archive row, featured card, architecture diagram
-  case-study/             reusable case-study section wrapper + impact metric
+  case-study/             CaseStudyViewer (chapter tabs) + ImpactMetric
   architecture/          framework explorer + capability map
   about/                  career journey
-  ui/                     Button, Container, Tag, Insignia, SectionHeading
+  ui/                     Button, Container, Tag, Insignia, SectionHeading, GlassPanel
   motion/                 Reveal (scroll-in-view wrapper, reduced-motion aware)
 content/                 all copy + project/capability/framework data (no hardcoded page content)
 ```
