@@ -1,26 +1,133 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Sage */
+  --color-sage-dark: #4e6b57;
+  --color-sage: #6f8872;
+  --color-sage-light: #a7bfa6;
+
+  /* Champagne */
+  --color-champagne: #e7d7b8;
+  --color-champagne-light: #f3e6c8;
+
+  /* Ivory / Cloud */
+  --color-cloud: #f7f6f1;
+  --color-ivory: #efe7db;
+
+  /* Stone */
+  --color-stone: #d6d1c4;
+  --color-stone-dark: #6f716b;
+
+  /* Supporting */
+  --color-moss: #5c6b4f;
+  --color-seafoam: #a9c2bb;
+
+  /* Semantic aliases */
+  --background: var(--color-cloud);
+  --foreground: var(--color-sage-dark);
 }
 
 @theme inline {
+  --color-sage-dark: var(--color-sage-dark);
+  --color-sage: var(--color-sage);
+  --color-sage-light: var(--color-sage-light);
+  --color-champagne: var(--color-champagne);
+  --color-champagne-light: var(--color-champagne-light);
+  --color-cloud: var(--color-cloud);
+  --color-ivory: var(--color-ivory);
+  --color-stone: var(--color-stone);
+  --color-stone-dark: var(--color-stone-dark);
+  --color-moss: var(--color-moss);
+  --color-seafoam: var(--color-seafoam);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-cormorant);
+
+  --animate-drift-slow: drift 90s linear infinite;
+  --animate-drift-slower: drift 160s linear infinite;
+  --animate-sway: sway 6s ease-in-out infinite;
+  --animate-sway-delay: sway 7s ease-in-out infinite;
+  --animate-bob: bob 8s ease-in-out infinite;
+  --animate-shimmer: shimmer 5s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-1.5deg);
+  }
+  50% {
+    transform: rotate(1.5deg);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.6;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cloud);
+  color: var(--color-sage-dark);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--color-sage-light);
+  color: var(--color-sage-dark);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.text-balance {
+  text-wrap: balance;
 }
