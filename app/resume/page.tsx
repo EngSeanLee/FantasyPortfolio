@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { Footer } from "@/components/navigation/Footer";
 import { site, credentials, links } from "@/content/site";
 import { capabilities } from "@/content/capabilities";
 import { getFeaturedProjects, projects } from "@/content/projects";
@@ -26,7 +27,7 @@ export default function ResumePage() {
 
   return (
     <div className="bg-white">
-      <Container className="pt-32 pb-24 sm:pt-40">
+      <Container className="pt-28 pb-24 lg:pt-24">
         <div className="flex flex-col gap-6 border-b border-stone pb-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="font-display text-4xl text-sage-dark">{site.name}</h1>
@@ -136,6 +137,7 @@ export default function ResumePage() {
           </p>
         </section>
       </Container>
+      <Footer />
     </div>
   );
 }

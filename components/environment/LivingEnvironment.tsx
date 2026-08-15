@@ -12,9 +12,13 @@ import { join } from "node:path";
  * refuse to fetch external resources or run SMIL for SVGs loaded as a
  * plain image source. Inlining gives it a real document context so both
  * work.
+ *
+ * Motion is intentionally restrained to clouds only, per the interaction
+ * pivot — no birds, motes, water shimmer, or meadow wind. The painting
+ * itself is the star.
  */
 const svgMarkup = readFileSync(
-  join(process.cwd(), "public/environment/daylight-meadow-living-scene.svg"),
+  join(process.cwd(), "public/environment/daylight-meadow-clouds-only.svg"),
   "utf-8"
 );
 

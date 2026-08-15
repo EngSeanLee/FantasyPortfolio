@@ -4,25 +4,15 @@ import { motion, useReducedMotion } from "framer-motion";
 
 /**
  * A transparent window onto the single, persistent <LivingEnvironment />
- * background (mounted in the root layout). This component owns no art of
- * its own — it just reserves hero-sized space and fades into the page's
- * solid content below, so the world underneath stays visible and never
- * differs page to page.
+ * background (mounted in the root layout). Home is a single viewport with
+ * nothing below it — full environmental presence, no fade into a solid
+ * panel — so this owns no art and no bottom gradient of its own.
  */
 export function HeroEnvironment({ children }: { children?: React.ReactNode }) {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <div className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
-      {/* fade into the page's solid background at the bottom edge */}
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          background: "linear-gradient(180deg, transparent 62%, var(--color-cloud) 100%)",
-        }}
-      />
-
+    <div className="relative h-svh min-h-[560px] w-full overflow-hidden">
       {children && (
         <motion.div
           initial={{ opacity: 0 }}

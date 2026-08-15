@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 1672 941"
+     width="1672" height="941"
+     role="img"
+     aria-labelledby="title desc"
+     preserveAspectRatio="xMidYMid slice">
+
+  <title id="title">Daylight Meadow with subtle cloud movement</title>
+  <desc id="desc">
+    Approved painterly Daylight Meadow environment with only subtle, slow cloud movement.
+  </desc>
+
+  <defs>
+    <image id="masterArt"
+           href="/environment/daylight-meadow-master.png"
+           x="0" y="0"
+           width="1672" height="941"
+           preserveAspectRatio="xMidYMid slice"/>
+
+    <!-- Restrict animation to the upper sky/cloud area. -->
+    <linearGradient id="cloudMaskGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="white"/>
+      <stop offset="45%" stop-color="white"/>
+      <stop offset="58%" stop-color="#555"/>
+      <stop offset="66%" stop-color="black"/>
+      <stop offset="100%" stop-color="black"/>
+    </linearGradient>
+
+    <mask id="cloudMask">
+      <rect width="1672" height="941" fill="url(#cloudMaskGradient)"/>
+    </mask>
+
+    <!-- Extremely low-strength distortion so clouds feel alive without warping the painting. -->
+    <filter id="cloudSoftMotion" x="-4%" y="-6%" width="108%" height="112%">
+      <feTurbulence type="fractalNoise"
+                    baseFrequency="0.0035 0.008"
+                    numOctaves="1"
+                    seed="21"
+                    result="noise">
+        <animate attributeName="baseFrequency"
+                 values="0.0035 0.008;0.004 0.007;0.0035 0.008"
+                 dur="42s"
+                 repeatCount="indefinite"/>
+      </feTurbulence>
+
+      <feDisplacementMap in="SourceGraphic"
+                         in2="noise"
+                         scale="2.5"
+                         xChannelSelector="R"
+                         yChannelSelector="G">
+        <animate attributeName="scale"
+                 values="1.5;3;1.5"
+                 dur="36s"
+                 repeatCount="indefinite"/>
+      </feDisplacementMap>
+    </filter>
+
+    <style>
+      @media (prefers-reduced-motion: reduce) {
+        #movingClouds {
+          display: none;
+        }
+      }
+    </style>
+  </defs>
+
+  <!-- Static approved artwork -->
+  <use href="#masterArt"/>
+
+  <!--
+    Cloud motion only.
+    A masked duplicate of the approved painting moves by just a few pixels over a long cycle.
+    Everything below the cloud region remains completely static.
+  -->
+  <g id="movingClouds"
+     mask="url(#cloudMask)"
+     opacity=".28"
+     filter="url(#cloudSoftMotion)">
+    <use href="#masterArt">
+      <animateTransform
+        attributeName="transform"
+        type="translate"
+        values="-2 0;5 -1;-2 0"
+        keyTimes="0;0.5;1"
+        dur="54s"
+        repeatCount="indefinite"/>
+    </use>
+  </g>
+
+</svg>

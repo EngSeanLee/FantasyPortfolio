@@ -14,13 +14,10 @@ export const nav = [
   { label: "Contact", href: "/contact", descriptor: "Get In Touch" },
 ];
 
-export const sectionProgress = [
-  { id: "home", label: "Home" },
-  { id: "work", label: "Work" },
-  { id: "architecture", label: "Architecture" },
-  { id: "about", label: "About" },
-  { id: "contact", label: "Contact" },
-];
+// Left navigation rail — the primary desktop wayfinding system. Includes
+// Home, which the top-level `nav` array (mobile drawer, footer-era links)
+// intentionally omits since the brand mark already links there.
+export const railNav = [{ label: "Home", href: "/", descriptor: "The Meadow" }, ...nav];
 
 // Placeholders — wire these up when real links / files are available.
 export const links = {

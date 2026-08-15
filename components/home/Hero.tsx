@@ -15,7 +15,7 @@ export function Hero() {
     <section id="home" className="relative">
       <ArrivalReveal />
       <HeroEnvironment>
-        <Container className="flex h-full items-center pt-20">
+        <Container className="flex h-full items-center pt-20 lg:pt-0">
           <motion.div
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}

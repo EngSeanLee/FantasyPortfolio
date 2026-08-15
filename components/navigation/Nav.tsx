@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { nav, site } from "@/content/site";
+import { railNav, site } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 
+/**
+ * Mobile-only top bar (brand + drawer trigger). Desktop navigation is the
+ * left NavRail instead — see components/navigation/NavRail.tsx.
+ */
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -23,7 +25,7 @@ export function Nav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-40 transition-all duration-500",
+        "fixed inset-x-0 top-0 z-40 transition-all duration-500 lg:hidden",
         scrolled
           ? "bg-cloud/90 shadow-[0_1px_0_0_var(--color-stone)] backdrop-blur-md"
           : "bg-transparent"
@@ -37,41 +39,12 @@ export function Nav() {
           {site.name}
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
-          {nav.map((item) => {
-            const active = pathname === item.href || pathname.startsWith(item.href + "/");
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "relative text-sm font-medium tracking-wide text-sage-dark/80 transition-colors hover:text-sage-dark",
-                  active && "text-sage-dark"
-                )}
-              >
-                {item.label}
-                {active && (
-                  <span className="absolute -bottom-2 left-0 h-px w-full bg-champagne" />
-                )}
-              </Link>
-            );
-          })}
-          <button
-            type="button"
-            aria-disabled
-            title="Ambient sound — coming soon"
-            className="text-xs font-medium uppercase tracking-[0.2em] text-stone-dark/50 cursor-default"
-          >
-            Ambient
-          </button>
-        </nav>
-
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-label="Toggle navigation menu"
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5"
         >
           <span
             className={cn(
@@ -95,10 +68,10 @@ export function Nav() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-stone bg-cloud lg:hidden"
+            className="overflow-hidden border-t border-stone bg-cloud"
           >
             <Container className="flex flex-col gap-1 py-4">
-              {nav.map((item) => (
+              {railNav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -109,6 +82,13 @@ export function Nav() {
                   <span className="text-xs text-stone-dark">{item.descriptor}</span>
                 </Link>
               ))}
+              <button
+                type="button"
+                aria-disabled
+                className="mt-2 self-start px-2 text-xs font-medium uppercase tracking-[0.2em] text-stone-dark/50"
+              >
+                Ambient — coming soon
+              </button>
             </Container>
           </motion.div>
         )}

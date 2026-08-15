@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/navigation/Nav";
-import { Footer } from "@/components/navigation/Footer";
+import { NavRail } from "@/components/navigation/NavRail";
 import { LivingEnvironment } from "@/components/environment/LivingEnvironment";
 
 const inter = Inter({
@@ -36,8 +36,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col text-sage-dark">
         <LivingEnvironment />
         <Nav />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <NavRail />
+        {/* Reserves space for the fixed left rail at desktop widths. The
+            Footer is intentionally not global — it only appears on
+            /resume, the one conventional, fully-scrolling page. */}
+        <main className="flex-1 lg:pl-44">{children}</main>
       </body>
     </html>
   );
