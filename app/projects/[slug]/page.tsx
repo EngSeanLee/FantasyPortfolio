@@ -50,7 +50,7 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
   return (
     <>
       <SceneBackdrop distance="near" className="h-[46vh] min-h-[380px]" />
-      <div className="relative -mt-24 sm:-mt-28">
+      <div className="relative -mt-24 bg-cloud sm:-mt-28">
         <Container>
           <Eyebrow>{project.category}</Eyebrow>
           <div className="mt-4 flex items-start gap-5">

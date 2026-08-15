@@ -3,6 +3,7 @@ import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/navigation/Nav";
 import { Footer } from "@/components/navigation/Footer";
+import { LivingEnvironment } from "@/components/environment/LivingEnvironment";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,7 +33,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${inter.variable} ${cormorant.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-cloud text-sage-dark">
+      <body className="min-h-full flex flex-col text-sage-dark">
+        <LivingEnvironment />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />

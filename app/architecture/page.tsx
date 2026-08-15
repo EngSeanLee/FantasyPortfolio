@@ -14,7 +14,7 @@ export default function ArchitecturePage() {
   return (
     <>
       <SceneBackdrop distance="near" className="h-[42vh] min-h-[340px]" />
-      <div className="relative -mt-16 sm:-mt-20">
+      <div className="relative -mt-16 bg-cloud sm:-mt-20">
         <Container>
           <Eyebrow>Architecture</Eyebrow>
           <h1 className="mt-4 font-display text-4xl text-sage-dark sm:text-5xl">

@@ -29,10 +29,24 @@ Read those before making structural or design changes.
 - `/contact` — return to the meadow, with LinkedIn / email / resume links
 
 **Not yet real:** `content/site.ts` → `links` holds placeholder LinkedIn/email URLs and a null
-résumé file — wire these up before shipping. The environment art is original SVG/CSS (sky,
-clouds, mountains, an Observatory landmark, ruins/terraces, meadow, foreground grass, birds,
-atmosphere) rather than painted illustration — swap in real layered art per §25 of the brief
-if/when it exists, using the same layer components in `components/environment/`.
+résumé file — wire these up before shipping.
+
+**Environment art:** the world background is the approved painterly reference
+(`public/environment/daylight-meadow-master.png`, animated via
+`daylight-meadow-living-scene.svg` — cloud drift, meadow wind, birds, motes, water shimmer, all
+respecting `prefers-reduced-motion`). It's mounted **once**, in `app/layout.tsx`, via
+`<LivingEnvironment />` — outside `{children}` — so it persists across every route without
+remounting or swapping. Pages don't render their own art; they open a transparent window onto
+it (`HeroEnvironment` on `/`, `SceneBackdrop` elsewhere) that fades into solid content below.
+
+If you add a new page with a header band, follow the same pattern: transparent window at the
+top, then give the content wrapper below it an explicit `bg-cloud` (or similar) — otherwise
+that page's content renders transparently over the fixed background. See `app/projects/page.tsx`
+for the reference pattern.
+
+The SVG is inlined server-side (`readFileSync` + `dangerouslySetInnerHTML`) rather than loaded
+via `<img src>` — browsers don't fetch external resources (the `<image href>` master PNG) or run
+SMIL inside an img-sourced SVG.
 
 **Phase 2/3** (deeper capability-map interaction, richer transitions, ambient audio, etc.) are
 intentionally out of scope for now — see §28 of the brief.

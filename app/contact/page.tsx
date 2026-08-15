@@ -14,7 +14,7 @@ export default function ContactPage() {
   return (
     <>
       <SceneBackdrop distance="far" className="h-[62vh] min-h-[480px]" />
-      <div className="relative -mt-40 pb-32 sm:-mt-48">
+      <div className="relative -mt-40 bg-cloud pb-32 sm:-mt-48">
         <Container className="text-center">
           <Divider className="mx-auto justify-center" />
           <h1 className="mx-auto mt-8 max-w-2xl font-display text-4xl leading-tight text-sage-dark text-balance sm:text-5xl">

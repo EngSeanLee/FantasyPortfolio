@@ -15,7 +15,7 @@ export default function AboutPage() {
   return (
     <>
       <SceneBackdrop distance="mid" className="h-[42vh] min-h-[340px]" />
-      <div className="relative -mt-16 sm:-mt-20">
+      <div className="relative -mt-16 bg-cloud sm:-mt-20">
         <Container>
           <Eyebrow>About</Eyebrow>
           <h1 className="mt-4 max-w-2xl font-display text-4xl leading-tight text-sage-dark text-balance sm:text-5xl">

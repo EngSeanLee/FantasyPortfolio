@@ -32,7 +32,7 @@ export default function ProjectsPage() {
   return (
     <>
       <SceneBackdrop distance="mid" className="h-[40vh] min-h-[320px]" />
-      <div className="relative -mt-16 sm:-mt-20">
+      <div className="relative -mt-16 bg-cloud sm:-mt-20">
         <Container>
           <Eyebrow>Projects</Eyebrow>
           <h1 className="mt-4 font-display text-4xl text-sage-dark sm:text-5xl">
