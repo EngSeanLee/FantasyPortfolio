@@ -25,13 +25,13 @@ Read this before anything else below; it tells you what's real vs. aspirational 
 - Project case-study viewer is a chapter tab UI (`components/case-study/CaseStudyViewer.tsx`), not a scrolling article — done ahead of schedule after direct feedback that the case study had "too much scrolling." `ImpactMetric` ships alongside it. The old stacked-section `CaseSection.tsx` approach is gone.
 - Content panels use `components/ui/GlassPanel.tsx` (translucent ivory + `backdrop-blur-xl` + champagne border + soft shadow) on Projects, Architecture, About, Contact, and the case-study viewer. World stays visible and blurred behind every panel.
 - Environment background is `public/environment/daylight-meadow-master.png`, mounted once in `app/layout.tsx` via `<LivingEnvironment />`, outside `{children}` — persists across every route without remounting.
+- `/projects` is now the interactive System Map described in Section 5 (`components/projects/SystemMap.tsx` + `lib/system-map-layout.ts`) — nodes clustered by category, connected by theme, cross-category links derived from `relatedProjects`. Hover/focus preview panel, click-through to the existing case-study route, `lg:hidden` fallback reuses `ArchiveRow` grouped by category. The old scrolling archive list is gone from `/projects` (component file left in place — still used for the mobile fallback and inside the case-study viewer's related-projects section).
 
 **Not yet built (the rest of Phase 2, and Phases 3–4 of the interaction pivot):**
-- `/projects` is still a scrolling archive list inside a glass panel — not the interactive System Map described in Section 5.
 - `/architecture` still stacks Framework + Capability Map in one scrollable panel — not the two-view toggle described in Section 5.
 - `/about` still scrolls inside its panel — not the selectable-areas layout described in Section 5.
 
-These three are the focus of this revision — see Section 5 for full specs, and Section 12 for the phase breakdown.
+These two are the remaining focus of this revision — see Section 5 for full specs, and Section 12 for the phase breakdown.
 
 **Also outstanding (not a design problem, a data problem):** `content/site.ts → links` holds placeholder LinkedIn/email URLs and a null résumé file. Wire these before shipping — see Section 15.
 
@@ -205,11 +205,14 @@ Resume:               minimal
 ## Home — one viewport, no scrolling — **LIVE**
 Daylight Meadow full-width, name, headline, positioning statement, one or two CTAs, nav rail. Nothing else stacked below. The world *is* the homepage. Only `Hero` is mounted on `/`.
 
-## Projects — interactive System Map (not an archive list) — **NOT BUILT — full spec below**
+## Projects — interactive System Map (not an archive list) — **LIVE**
 
-**Current state:** `/projects` is a scrolling archive list of rows/cards inside a `GlassPanel`, plus a featured card and an architecture diagram component. Functionally fine, doesn't match the pivot's intent.
+**Shipped as:** `components/projects/SystemMap.tsx` + `lib/system-map-layout.ts`, wired into `app/projects/page.tsx`. Matches the spec below with two implementation notes:
+- Clustering uses `content/projects.ts`'s existing `category` field as-is (five categories emerged from the real data: Process Systems, Applied AI, Documentation Automation, Program Discipline, Applied Tools & Experiments) rather than the illustrative category list originally sketched below — no new content metadata was needed.
+- Node/label positions are computed by a small deterministic relaxation pass (anchor pull + mutual repulsion with a minimum spacing) rather than fixed per-cluster angle math — the first version without it produced real label/node overlaps once a cluster had more than one member. Worth knowing if this ever needs to move to a different rendering approach (e.g. Section 8's R3F scene).
+- The `lg:hidden` mobile fallback (reusing `ArchiveRow` grouped by category) is built but not yet verified on an actual narrow viewport — worth a check before considering this fully done.
 
-**Target:** replace the archive list with a system map — nodes representing projects, connected/grouped by theme. This is the highest-leverage remaining piece: it's the first thing a recruiter interacts with after Home, and right now it reads as a normal SaaS list, which undercuts the "holy shit, this is different" reaction arc goal from Section 1.
+**Original brief, preserved for the categories/interaction intent it still describes accurately:**
 
 **Categories (grouping, not literal folders):**
 - Governance & Process
@@ -470,8 +473,8 @@ Global shell, persistent environment, remove top nav, left nav rail, minimize Ho
 ## Phase 2 — Projects & Interaction Layer — **PARTIAL**
 - ✅ Chaptered case-study viewer (done ahead of schedule, direct user feedback).
 - ✅ `GlassPanel` treatment rolled out across Projects/Architecture/About/Contact/case-study.
-- ⬜ **Projects System Map** — full spec in Section 5. This is the next piece to build.
-- ⬜ **Architecture two-view toggle** — full spec in Section 5.
+- ✅ **Projects System Map** — full spec in Section 5. Shipped; mobile fallback still wants a real narrow-viewport check.
+- ⬜ **Architecture two-view toggle** — full spec in Section 5. This is the next piece to build.
 - ⬜ **About selectable areas** — full spec in Section 5.
 - ⬜ Richer route transitions (still using page-level transitions, not the spatial-reframe behavior in Section 6 — leave as-is pending Section 0.5).
 
