@@ -2,31 +2,14 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { GlassPanel } from "@/components/ui/GlassPanel";
-import { ArchiveRow } from "@/components/projects/ArchiveRow";
-import { getProjectsByGroup } from "@/content/projects";
+import { SystemMap } from "@/components/projects/SystemMap";
+import { projects } from "@/content/projects";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Archive of Applied Systems — process design, applied AI, and documentation automation.",
+  description:
+    "A system map of applied AI, governance, and process work, grouped by the kind of problem each one solves.",
 };
-
-const groups: { group: "featured" | "supporting" | "experiments"; label: string; description: string }[] = [
-  {
-    group: "featured",
-    label: "Featured Systems",
-    description: "The core body of work — process, governance, and applied AI, end to end.",
-  },
-  {
-    group: "supporting",
-    label: "Supporting AI & Automation Systems",
-    description: "Focused agents built to remove specific, recurring friction.",
-  },
-  {
-    group: "experiments",
-    label: "Applied Tools & Experiments",
-    description: "Independent tools built to test ideas and develop technical capability.",
-  },
-];
 
 export default function ProjectsPage() {
   return (
@@ -34,31 +17,16 @@ export default function ProjectsPage() {
       <Container>
         <GlassPanel className="p-7 sm:p-10 lg:p-14">
           <Eyebrow>Projects</Eyebrow>
-          <h1 className="mt-4 font-display text-4xl text-sage-dark sm:text-5xl">
-            Archive of Applied Systems
-          </h1>
+          <h1 className="mt-4 font-display text-4xl text-sage-dark sm:text-5xl">System Map</h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-stone-dark">
-            Each system began with an operating problem, not a tool. Browse by category, or open
-            any project for the full case study.
+            Each system began with an operating problem, not a tool. Hover or focus any node to
+            preview it — the map groups them by the kind of problem they solve, not by chronology.
+            Open a node for the full case study.
           </p>
 
-          {groups.map((g) => {
-            const items = getProjectsByGroup(g.group);
-            if (items.length === 0) return null;
-            return (
-              <div key={g.group} className="mt-16 first:mt-16">
-                <div className="flex flex-col gap-2 border-b border-champagne/40 pb-5 sm:flex-row sm:items-baseline sm:justify-between">
-                  <h2 className="font-display text-2xl text-sage-dark">{g.label}</h2>
-                  <p className="text-sm text-stone-dark">{g.description}</p>
-                </div>
-                <div className="mt-2">
-                  {items.map((project, i) => (
-                    <ArchiveRow key={project.slug} project={project} index={i} />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+          <div className="mt-14">
+            <SystemMap projects={projects} />
+          </div>
         </GlassPanel>
       </Container>
     </div>
