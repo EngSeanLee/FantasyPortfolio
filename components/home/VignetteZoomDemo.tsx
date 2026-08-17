@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
  * mechanic can be judged on its own before that exists.
  */
 const TEST_POINT = { x: 600, y: 560 };
-const ZOOM_SCALE = 4.5;
+const ZOOM_SCALE = 4;
 
 export function VignetteZoomDemo() {
   const [active, setActive] = useState(false);
