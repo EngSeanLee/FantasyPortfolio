@@ -32,7 +32,7 @@ Read this before anything else below; it tells you what's real vs. aspirational 
 **Not yet built (Phases 3–4 of the interaction pivot):**
 - The three Phase 2 interaction pieces (System Map, Architecture toggle, About areas) are now all shipped — see Section 12 for what's next.
 
-**Also outstanding (not a design problem, a data problem):** `content/site.ts → links` — LinkedIn and email are now real; `resumeFile` is still `null` pending a PDF. See Section 15.
+**Also outstanding (not a design problem, a data problem):** `content/site.ts → links` — LinkedIn, email, and `resumeFile` are all real now. See Section 15.
 
 ---
 
@@ -282,8 +282,10 @@ Background · Journey · Credentials · Beyond the Work
 
 **Done when:** landing on `/about` shows one panel with four clear entry points, not a wall of text you scroll through top to bottom.
 
-## Resume — the deliberate exception — **LIVE**
-Conventional page: ivory/white background, minimal fantasy styling, standard hierarchy, print-friendly, downloadable. Gives recruiters a familiar safe space. Traditional scrolling is fine here. `Footer` renders only here, by design.
+## Resume — no longer a styling exception — **LIVE**
+Was originally a deliberate exception: opaque ivory/white background, no `GlassPanel`, no persistent world visible — meant to give recruiters a familiar, conventional safe space. Reversed on direct instruction after it read as "a big white box crowding the background" rather than restful — the empty full-bleed white space looked broken next to every other page's fuller composition, not intentionally minimal. `/resume` now uses `GlassPanel` like every other content page; the world is visible behind it same as elsewhere. Traditional (non-chaptered) scrolling within the panel is still fine here — this page doesn't need the selectable-area/toggle treatment the other content pages got. `Footer` still renders only here, by design — that part of the exception wasn't in question.
+
+Content is now data-driven from `content/site.ts` (`experience`, `earlierRoles`, `credentials`) and reflects the actual current résumé (`public/resume/engsean-lee-resume.pdf`, downloadable via `links.resumeFile`) — real employers (Blue Cross Blue Shield of Kansas, Capitol Federal Savings Bank), real titles and dates, the actual named Generative AI agents built on the job. The on-page content is deliberately the *concrete, literal* version — unlike the rest of the site's polished narrative framing, this page's job is specifically to prove traditional corporate credibility with verifiable specifics, alongside the rest of the site's demonstration of applied AI/creative work.
 
 ## Contact — **LIVE** (verify against placeholder-link status in Section 15)
 Minimal, one viewport, open-horizon framing. Email / LinkedIn / Resume actions.
@@ -557,7 +559,7 @@ the Quality Gate in Section 13, including the new System Map / toggle / About ga
 
 Flagging so it doesn't get lost while the interaction-pivot work above is in progress:
 
-- `content/site.ts → links` — ✅ LinkedIn (`https://www.linkedin.com/in/engseanlee`) and email (`lee.aisolutions@gmail.com`) are wired. `resumeFile` is still `null` (deliberately deferred) — `/resume`'s download button correctly shows "PDF coming soon" instead of a broken link in the meantime; add the PDF and set this to unblock it.
+- `content/site.ts → links` — ✅ LinkedIn (`https://www.linkedin.com/in/engseanlee`), email (`lee.aisolutions@gmail.com` — deliberately distinct from the résumé's own contact email, a separate portfolio inbox), and `resumeFile` (`/resume/engsean-lee-resume.pdf`) are all wired and real.
 - `components/ui/Button.tsx` and `Footer`'s LinkedIn link now open external (`http`) links in a new tab with `rel="noopener noreferrer"` — added alongside the real URL so a recruiter clicking LinkedIn doesn't navigate away from the portfolio tab entirely. `mailto:` links stay same-tab.
 - Verified `/contact`, `/resume`, and the Footer/`ClosingCta` links resolve correctly with the real values.
 - No SEO/analytics/deploy-pipeline decisions have been made yet in any doc — out of scope for this revision, but worth a dedicated pass before public launch.

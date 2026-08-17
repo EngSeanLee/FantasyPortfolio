@@ -19,20 +19,59 @@ export const nav = [
 // intentionally omits since the brand mark already links there.
 export const railNav = [{ label: "Home", href: "/", descriptor: "The Meadow" }, ...nav];
 
-// Résumé file is still a placeholder — wire it up once a PDF is available.
 export const links = {
   linkedin: "https://www.linkedin.com/in/engseanlee",
   email: "mailto:lee.aisolutions@gmail.com",
-  resumeFile: null as string | null,
+  resumeFile: "/resume/engsean-lee-resume.pdf" as string | null,
 };
 
 export const credentials = [
   "PMP — Project Management Professional",
+  "MBA — IT Management, In Progress",
   "B.S. — Technology Administration",
-  "MBA — Technology Management, In Progress",
-  "Industry Experience — Financial Services",
-  "Industry Experience — Healthcare",
+  "A.S. — Graphic Technology",
+  "Microsoft Office Certified",
+  "OSHA 10",
+  "Industry Experience — Health Insurance",
+  "Industry Experience — Financial Services / Banking",
 ];
+
+export const experience = [
+  {
+    company: "Blue Cross Blue Shield of Kansas",
+    location: "Topeka, KS",
+    role: "Enterprise Planning & Alignment Analyst I",
+    dates: "Sep 2025 – Present",
+    highlights: [
+      "Partner with stakeholders across the enterprise to translate strategic priorities into actionable initiatives, roadmaps, and 12-week planning cycles.",
+      "Evaluate and prioritize initiatives through business cases, cost-benefit analysis, and vendor assessments to support leadership decision-making.",
+      "Built Generative AI agents on Microsoft Copilot — a Sentence Agent for content editing and refinement, and the CP3 Minutes Agent for automated meeting-minutes summarization.",
+    ],
+  },
+  {
+    company: "Capitol Federal® Savings Bank",
+    location: "Topeka, KS",
+    role: "Project Manager / Project Analyst — Enterprise PMO",
+    dates: "Dec 2023 – Sep 2025",
+    highlights: [
+      "Progressed from Project Analyst to Project Manager, driving enterprise project delivery across IT, operations, and compliance in alignment with strategic goals and regulatory standards.",
+      "Led enterprise-wide rollout of Duo and 1Password across the organization's 700+ employees, paired with a Data Loss Prevention (DLP) implementation.",
+      "Built a Generative AI planning coach and an LLM-based documentation generator to streamline project estimation and documentation workflows.",
+    ],
+  },
+  {
+    company: "Capitol Federal® Savings Bank",
+    location: "Topeka, KS",
+    role: "Project & Compliance/Risk Intern",
+    dates: "Aug 2022 – Dec 2023",
+    highlights: [
+      "Built a foundation in enterprise project management and IT compliance — scheduling, documentation, risk assessments, and security-awareness and regulatory alignment.",
+    ],
+  },
+];
+
+export const earlierRoles =
+  "Technical Support Specialist, NCS Midwest (2021–2022) · ACE Consultant, Bradford & Galt (2018–2020)";
 
 export const careerJourney = [
   { label: "Technology Administration", isCurrent: false },
