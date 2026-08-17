@@ -36,18 +36,17 @@ Read this before anything else below; it tells you what's real vs. aspirational 
 
 ---
 
-# 0.5 Open Decision — Motion & the Section 8 3D Pivot (UNRESOLVED)
+# 0.5 Motion & the Section 8 3D Pivot — TRIED, REVERTED, SHELVED
 
-**Flagging this, not resolving it.** Do not implement either direction below until EngSean decides. This section exists so the contradiction is visible instead of silently ignored.
+**Current status: the site is intentionally static again.** `LivingEnvironment` renders `daylight-meadow-master.png` directly via `next/image` — no SVG, no ambient motion, no camera reframe, no hotspots. This was a deliberate decision after actually building and testing the alternative, not an unexamined default — see below for what was tried and why it didn't stay. Treat Sections 6 and 8 as **reference material, not a current build target.**
 
-**The contradiction:** Section 6 (Motion & Interaction Rules) and Section 8 (3D World Pivot) — both carried over from v2 — specify constant ambient motion (cloud drift, wind through grass, coasting birds, water shimmer) and eventually a React Three Fiber camera system with waypoints. **The actual build already tried a version of this and walked it back.** An earlier pass wrapped the environment art in an SVG `feTurbulence` cloud-displacement filter for ambient motion. EngSean disliked what it did to the painting, so it was removed. `LivingEnvironment` now renders `daylight-meadow-master.png` directly via `next/image` — fully static, no SVG, no distortion, no motion — and the README explicitly says not to reintroduce SVG-driven distortion on this image without asking first.
+**Round one (pre-Phase-2):** an early pass wrapped the environment art in an SVG `feTurbulence` cloud-displacement filter for ambient motion. EngSean disliked what it did to the painting, so it was removed. The README says not to reintroduce SVG-driven distortion on this image without asking first.
 
-So Sections 6 and 8 below describe a target model that was tried once, in one specific implementation (SVG turbulence), and rejected on visual-quality grounds — not necessarily rejected as a *goal*. Two honest reads of that:
+**Round two (post-Phase-2, tried properly):** once Phase 2 was done, this was revisited for real — a hybrid build, not a full R3F scene: `AmbientLife.tsx` (birds on CSS-animated loops, a water-shimmer highlight traveling the river, a faint cloud-shadow), per-route camera reframe waypoints (`lib/environment-waypoints.ts`), and clickable Observatory/ruins hotspots (`EnvironmentHotspots.tsx`). Iterated through several real bugs along the way — a hydration mismatch, a hit-testing bug where hotspots visually rendered above content but z-index lost the paint order so clicks silently fell through to the text underneath, and a genuine `next/image` gotcha where its responsive `sizes` system picks a resolution variant based on pre-transform CSS size, so a CSS-scaled zoom can stay pixelated no matter how high-res the source file is.
 
-- **It was the technique that failed, not the ambition.** A cheap displacement filter smeared a painterly image; a proper depth-layered approach (real separated art layers, not a filter over one flat image) might read completely differently.
-- **The static image is simply better**, and the ambition itself should be scaled back — restraint as the actual final answer, not a stepping stone.
+**Why it was reverted:** even fully debugged, the birds read as flat 2D sprites sliding across the screen, not living motion — the actual vision (confirmed directly): *"a view from a hillside in a live video game where you can zoom into specific parts of the map and watch live things happen — a man floating down a river, a blacksmith pounding away at an anvil."* That's a fundamentally different thing than ambient particle motion on a static image: it needs either dedicated video/animation content composited in at specific locations behind a real dramatic camera push (prototyped on the separate `vignette-prototype` branch, not merged — got as far as a working push-in mechanic with a placeholder card, no real vignette content yet), or an actual 3D/game-engine build. Decision: leave the shipped site at its Phase 2 state (System Map, Architecture toggle, About areas, real contact links — solid and reviewed) rather than ship a motion layer that didn't deliver the vision it was chasing.
 
-**Recommendation (non-binding):** don't touch this until Phase 2's three outstanding pieces (System Map, Architecture toggle, About) are done and evaluated — see Section 12. Revisit motion then, if at all, as its own scoped experiment (one layer, one type of motion, reviewed before expanding) rather than the full Section 8 R3F system in one pass. But this is a recommendation, not a decision — Claude Code should treat Sections 6 and 8 as **reference material, not a current build target**, until EngSean says otherwise.
+**If this gets revisited later:** the `vignette-prototype` branch has the push-in-camera mechanic already working, plus a written plan and generation prompts (bird sprites, a blacksmith test vignette, a verified-good 5x-resolution upscale technique for the master painting) — worth reading before starting over. The real open question isn't technique anymore, it's whether to pursue dedicated video vignettes (stays in this stack) or a genuine 3D/game engine (a much bigger, separate undertaking) — see that branch's chat history for the fuller breakdown.
 
 ---
 
@@ -487,8 +486,8 @@ Career-journey animation refinement, Capability Map evidence-panel interactions,
 ## Phase 4 — About & Contact
 Any remaining conversion of About/Contact into the full persistent-shell interaction model beyond the Phase 2 selectable-areas work.
 
-## Phase 5 — 3D World Pivot (Section 8, Path A) — **ON HOLD pending Section 0.5**
-Do not start until EngSean resolves the open motion decision. If greenlit: introduce the React Three Fiber depth-layered scene as a scoped experiment (see Section 0.5's recommendation) before expanding to full waypoint coverage.
+## Phase 5 — Motion & Interactivity — **TRIED, REVERTED, SHELVED (see Section 0.5)**
+A hybrid (non-R3F) version of this shipped, was iterated on, and was reverted — the site is back to fully static. Not on hold pending a decision; the decision was made after actually testing it. Don't restart this without direct instruction — see Section 0.5 for the full history and what's worth reading first (`vignette-prototype` branch) if it does come back.
 
 ## Phase 6 — Premium Polish / Stretch
 Optional ambient music (default off, explicit opt-in), one or two Blender-built accent objects per Section 8.3 (Path B) if budget allows, richer page transitions, recruiter-focused resume mode.
