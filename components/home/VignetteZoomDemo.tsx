@@ -69,7 +69,7 @@ export function VignetteZoomDemo() {
               initial={{ scale: 1 }}
               animate={{ scale: prefersReducedMotion ? ZOOM_SCALE : ZOOM_SCALE }}
               exit={{ scale: 1 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 1.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: prefersReducedMotion ? 0 : 2.1, ease: [0.22, 1, 0.36, 1] }}
             >
               <Image src={heroArt} alt="" fill priority sizes="100vw" className="object-cover" />
             </motion.div>
