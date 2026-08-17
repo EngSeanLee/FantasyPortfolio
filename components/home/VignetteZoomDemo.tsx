@@ -47,8 +47,11 @@ export function VignetteZoomDemo() {
         className="pointer-events-auto fixed z-10 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center lg:flex"
         style={{ left: point.left, top: point.top, width: radius * 2, height: radius * 2 }}
       >
-        <span className="absolute h-4 w-4 animate-ping rounded-full bg-champagne/70" />
-        <span className="absolute h-2.5 w-2.5 rounded-full bg-champagne shadow-[0_0_16px_4px_rgba(231,215,184,0.8)]" />
+        {/* Loud test-only marker color (magenta) so it's unmissable
+            against the sky while judging the push-in motion — has no
+            bearing on the final hotspot's appearance. */}
+        <span className="absolute h-8 w-8 animate-ping rounded-full bg-fuchsia-500/70" />
+        <span className="absolute h-5 w-5 rounded-full bg-fuchsia-500 shadow-[0_0_24px_8px_rgba(217,70,239,0.8)]" />
       </button>
 
       <AnimatePresence>
