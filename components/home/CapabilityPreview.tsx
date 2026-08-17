@@ -41,7 +41,7 @@ export function CapabilityPreview() {
         </div>
 
         <div className="mt-10">
-          <Button href="/architecture#capability-map" variant="secondary">
+          <Button href="/architecture?view=capability-map" variant="secondary">
             View Capability Map
           </Button>
         </div>

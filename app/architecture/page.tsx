@@ -1,9 +1,9 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { GlassPanel } from "@/components/ui/GlassPanel";
-import { FrameworkExplorer } from "@/components/architecture/FrameworkExplorer";
-import { CapabilityMap } from "@/components/architecture/CapabilityMap";
+import { ArchitectureToggle } from "@/components/architecture/ArchitectureToggle";
 
 export const metadata: Metadata = {
   title: "Architecture",
@@ -25,22 +25,10 @@ export default function ArchitecturePage() {
             governance.
           </p>
 
-          <div className="mt-16">
-            <FrameworkExplorer />
-          </div>
-
-          <div id="capability-map" className="mt-20 scroll-mt-28 border-t border-champagne/40 pt-16">
-            <Eyebrow>Capability Map</Eyebrow>
-            <h2 className="mt-4 font-display text-3xl text-sage-dark sm:text-4xl">
-              Skills proven through project evidence.
-            </h2>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-stone-dark">
-              Every capability links back to a project that demonstrates it — not a self-assigned
-              proficiency score.
-            </p>
-            <div className="mt-12">
-              <CapabilityMap />
-            </div>
+          <div className="mt-14">
+            <Suspense fallback={null}>
+              <ArchitectureToggle />
+            </Suspense>
           </div>
         </GlassPanel>
       </Container>

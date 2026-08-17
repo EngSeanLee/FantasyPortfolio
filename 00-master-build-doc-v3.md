@@ -26,12 +26,12 @@ Read this before anything else below; it tells you what's real vs. aspirational 
 - Content panels use `components/ui/GlassPanel.tsx` (translucent ivory + `backdrop-blur-xl` + champagne border + soft shadow) on Projects, Architecture, About, Contact, and the case-study viewer. World stays visible and blurred behind every panel.
 - Environment background is `public/environment/daylight-meadow-master.png`, mounted once in `app/layout.tsx` via `<LivingEnvironment />`, outside `{children}` — persists across every route without remounting.
 - `/projects` is now the interactive System Map described in Section 5 (`components/projects/SystemMap.tsx` + `lib/system-map-layout.ts`) — nodes clustered by category, connected by theme, cross-category links derived from `relatedProjects`. Hover/focus preview panel, click-through to the existing case-study route, `lg:hidden` fallback reuses `ArchiveRow` grouped by category. The old scrolling archive list is gone from `/projects` (component file left in place — still used for the mobile fallback and inside the case-study viewer's related-projects section).
+- `/architecture` is now the two-view toggle described in Section 5 (`components/architecture/ArchitectureToggle.tsx`), wrapping the existing `FrameworkExplorer` and `CapabilityMap` components as-is (both were already click-to-reveal, not scroll lists, so neither needed rebuilding). A segmented control crossfades between the two; active view is tracked via `?view=framework` / `?view=capability-map` (`framework` is the default and omits the param) using `router.replace(..., { scroll: false })` so toggling doesn't spam browser history, while the URL stays linkable/shareable and deep-links correctly on load. Panel chrome (border, blur, position) stays fixed across the swap. The old `#capability-map` anchor link from the (currently unused) `CapabilityPreview` home component was updated to the new query-param URL.
 
 **Not yet built (the rest of Phase 2, and Phases 3–4 of the interaction pivot):**
-- `/architecture` still stacks Framework + Capability Map in one scrollable panel — not the two-view toggle described in Section 5.
 - `/about` still scrolls inside its panel — not the selectable-areas layout described in Section 5.
 
-These two are the remaining focus of this revision — see Section 5 for full specs, and Section 12 for the phase breakdown.
+This is the remaining focus of this revision — see Section 5 for the full spec, and Section 12 for the phase breakdown.
 
 **Also outstanding (not a design problem, a data problem):** `content/site.ts → links` holds placeholder LinkedIn/email URLs and a null résumé file. Wire these before shipping — see Section 15.
 
@@ -246,9 +246,11 @@ Daylight Meadow full-width, name, headline, positioning statement, one or two CT
 ```
 Selecting a chapter swaps the content region. Chapters without content just don't render — keep this behavior when adding new case studies; don't pad empty chapters. Executive-level density per section (fits viewport); offer "View Detail / Expand" for anyone who wants more. Always provide a clear close/back control ("×" or "Back to Systems") that returns to the System Map without resetting the broader experience.
 
-## Architecture — interactive framework, two-view toggle — **NOT BUILT — full spec below**
+## Architecture — interactive framework, two-view toggle — **LIVE**
 
-**Current state:** `/architecture` stacks the Framework section and the Capability Map in one scrollable `GlassPanel`. Both pieces individually work; the page as a whole doesn't match the "selectable, not scrolled" intent from v2.
+**Shipped as:** `components/architecture/ArchitectureToggle.tsx`, wired into `app/architecture/page.tsx` (the page's intro copy stays static outside the toggle; the toggle owns everything below it). Matches the spec below with one implementation note: URL state uses `router.replace`, not `router.push`, so clicking between the two views doesn't create a browser-history entry per click — the page's single history entry always carries whatever view was last active, so back/forward from elsewhere (e.g. a case study) returns you to the page in the state you left it, rather than stepping back through view toggles one click at a time.
+
+**Original brief, preserved below for reference:**
 
 **Target:** a single `GlassPanel` region with two views and a lightweight toggle between them — not two panels stacked, not two separate routes.
 
@@ -289,10 +291,10 @@ Minimal, one viewport, open-horizon framing. Email / LinkedIn / Resume actions.
 ## Scrolling budget
 ```text
 Home:                none          — met
-Projects:             none/minimal — not yet met (archive list scrolls)
+Projects:             none/minimal — met (System Map)
 Case Study Viewer:    none — chapter selection instead — met
-Architecture:          none/minimal — not yet met (stacked panel scrolls)
-Capability Map:        none if practical — pending toggle rebuild
+Architecture:          none/minimal — met (two-view toggle)
+Capability Map:        none if practical — met (toggle view)
 About:                 ~one short viewport max — not yet met (stacked scroll)
 Contact:               none — met
 Resume:                normal scrolling allowed — met, by design
@@ -474,8 +476,8 @@ Global shell, persistent environment, remove top nav, left nav rail, minimize Ho
 - ✅ Chaptered case-study viewer (done ahead of schedule, direct user feedback).
 - ✅ `GlassPanel` treatment rolled out across Projects/Architecture/About/Contact/case-study.
 - ✅ **Projects System Map** — full spec in Section 5. Shipped; mobile fallback still wants a real narrow-viewport check.
-- ⬜ **Architecture two-view toggle** — full spec in Section 5. This is the next piece to build.
-- ⬜ **About selectable areas** — full spec in Section 5.
+- ✅ **Architecture two-view toggle** — full spec in Section 5. Shipped.
+- ⬜ **About selectable areas** — full spec in Section 5. This is the next piece to build.
 - ⬜ Richer route transitions (still using page-level transitions, not the spatial-reframe behavior in Section 6 — leave as-is pending Section 0.5).
 
 ## Phase 3 — Architecture & Depth
