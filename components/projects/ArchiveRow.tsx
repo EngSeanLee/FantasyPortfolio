@@ -6,7 +6,7 @@ export function ArchiveRow({ project, index }: { project: Project; index: number
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group relative flex flex-col gap-4 border-b border-stone py-8 transition-colors first:pt-0 hover:bg-ivory/50 sm:flex-row sm:items-center sm:gap-8 sm:px-4"
+      className="group relative flex flex-col gap-4 border-b border-stone py-8 transition-colors first:pt-0 hover:bg-ivory/50 sm:flex-row sm:items-start sm:gap-8 sm:px-4"
     >
       <span className="w-10 shrink-0 font-display text-lg text-champagne">
         {String(index + 1).padStart(2, "0")}
