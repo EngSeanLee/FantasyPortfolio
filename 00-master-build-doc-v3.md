@@ -27,11 +27,10 @@ Read this before anything else below; it tells you what's real vs. aspirational 
 - Environment background is `public/environment/daylight-meadow-master.png`, mounted once in `app/layout.tsx` via `<LivingEnvironment />`, outside `{children}` — persists across every route without remounting.
 - `/projects` is now the interactive System Map described in Section 5 (`components/projects/SystemMap.tsx` + `lib/system-map-layout.ts`) — nodes clustered by category, connected by theme, cross-category links derived from `relatedProjects`. Hover/focus preview panel, click-through to the existing case-study route, `lg:hidden` fallback reuses `ArchiveRow` grouped by category. The old scrolling archive list is gone from `/projects` (component file left in place — still used for the mobile fallback and inside the case-study viewer's related-projects section).
 - `/architecture` is now the two-view toggle described in Section 5 (`components/architecture/ArchitectureToggle.tsx`), wrapping the existing `FrameworkExplorer` and `CapabilityMap` components as-is (both were already click-to-reveal, not scroll lists, so neither needed rebuilding). A segmented control crossfades between the two; active view is tracked via `?view=framework` / `?view=capability-map` (`framework` is the default and omits the param) using `router.replace(..., { scroll: false })` so toggling doesn't spam browser history, while the URL stays linkable/shareable and deep-links correctly on load. Panel chrome (border, blur, position) stays fixed across the swap. The old `#capability-map` anchor link from the (currently unused) `CapabilityPreview` home component was updated to the new query-param URL.
+- `/about` is now the selectable-areas layout described in Section 5 (`components/about/AboutAreas.tsx`) — Background · Journey · Credentials · Beyond the Work. Deliberately not a copy of the case-study chapter tabs or the Architecture pill toggle: a small 2×2/1×4 in-panel menu using the nav rail's dot-marker wayfinding language, each entry showing a label plus a one-line teaser. Same URL-state mechanism as Architecture (`?area=...`, `background` is the default and omits the param, `router.replace(..., { scroll: false })`). The page's H1 statement stays static outside the toggle (mirroring Architecture's static intro) so there's always exactly one on-page heading regardless of which area or deep link is active; `CareerJourney` is reused as-is inside the Journey area rather than duplicated.
 
-**Not yet built (the rest of Phase 2, and Phases 3–4 of the interaction pivot):**
-- `/about` still scrolls inside its panel — not the selectable-areas layout described in Section 5.
-
-This is the remaining focus of this revision — see Section 5 for the full spec, and Section 12 for the phase breakdown.
+**Not yet built (Phases 3–4 of the interaction pivot):**
+- The three Phase 2 interaction pieces (System Map, Architecture toggle, About areas) are now all shipped — see Section 12 for what's next.
 
 **Also outstanding (not a design problem, a data problem):** `content/site.ts → links` holds placeholder LinkedIn/email URLs and a null résumé file. Wire these before shipping — see Section 15.
 
@@ -265,9 +264,11 @@ Selecting a chapter swaps the content region. Chapters without content just don'
 
 **Done when:** the page never requires scrolling past one viewport to see either view in full (Section 5's scrolling budget: "none / minimal — selectable nodes"), and switching views feels like changing a lens on the same content, not leaving the page.
 
-## About — selectable areas — **NOT BUILT — full spec below**
+## About — selectable areas — **LIVE**
 
-**Current state:** `/about` scrolls inside its `GlassPanel` through Background → Journey → Credentials → Beyond the Work as one continuous stack (this is the same pattern as the old `CaseSection.tsx` approach that was already retired from the case-study viewer for the same reason — too much scrolling).
+**Shipped as:** `components/about/AboutAreas.tsx`, wired into `app/about/page.tsx` (the H1 statement stays static outside the toggle, same pattern as Architecture's static intro). Matches the spec below.
+
+**Original brief, preserved below for reference:**
 
 **Target:** one main panel with selectable areas, matching the pattern the case-study viewer already proved out. Reuse the *mechanism*, not necessarily an identical tab UI — About is shorter content than a case study, so a lighter treatment (e.g., four labeled selectable areas laid out as a small in-panel menu rather than numbered chapter tabs) can avoid feeling like a copy-paste of `CaseStudyViewer`.
 
@@ -295,7 +296,7 @@ Projects:             none/minimal — met (System Map)
 Case Study Viewer:    none — chapter selection instead — met
 Architecture:          none/minimal — met (two-view toggle)
 Capability Map:        none if practical — met (toggle view)
-About:                 ~one short viewport max — not yet met (stacked scroll)
+About:                 ~one short viewport max — met (selectable areas)
 Contact:               none — met
 Resume:                normal scrolling allowed — met, by design
 ```
@@ -477,7 +478,7 @@ Global shell, persistent environment, remove top nav, left nav rail, minimize Ho
 - ✅ `GlassPanel` treatment rolled out across Projects/Architecture/About/Contact/case-study.
 - ✅ **Projects System Map** — full spec in Section 5. Shipped; mobile fallback still wants a real narrow-viewport check.
 - ✅ **Architecture two-view toggle** — full spec in Section 5. Shipped.
-- ⬜ **About selectable areas** — full spec in Section 5. This is the next piece to build.
+- ✅ **About selectable areas** — full spec in Section 5. Shipped. All three Phase 2 interaction pieces are now done.
 - ⬜ Richer route transitions (still using page-level transitions, not the spatial-reframe behavior in Section 6 — leave as-is pending Section 0.5).
 
 ## Phase 3 — Architecture & Depth
