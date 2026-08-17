@@ -47,7 +47,7 @@ export function EnvironmentHotspots() {
   if (!rect.renderedWidth) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 hidden lg:block">
+    <div className="pointer-events-none fixed inset-0 z-20 hidden lg:block">
       {hotspots.map((spot) => {
         const center = toViewport(spot.x, spot.y);
         const radius = toViewportLength(spot.radius);

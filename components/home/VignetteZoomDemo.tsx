@@ -44,7 +44,7 @@ export function VignetteZoomDemo() {
         type="button"
         onClick={() => setActive(true)}
         aria-label="Preview: camera push-in prototype"
-        className="pointer-events-auto fixed z-10 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center lg:flex"
+        className="pointer-events-auto fixed z-20 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center lg:flex"
         style={{ left: point.left, top: point.top, width: radius * 2, height: radius * 2 }}
       >
         {/* Loud test-only marker color (magenta) so it's unmissable
