@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { HeroEnvironment } from "@/components/environment/HeroEnvironment";
 import { ArrivalReveal } from "@/components/environment/ArrivalReveal";
 import { EnvironmentHotspots } from "@/components/home/EnvironmentHotspots";
+import { VignetteZoomDemo } from "@/components/home/VignetteZoomDemo";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/SectionHeading";
@@ -16,6 +17,7 @@ export function Hero() {
     <section id="home" className="relative">
       <ArrivalReveal />
       <EnvironmentHotspots />
+      <VignetteZoomDemo />
       <HeroEnvironment>
         <Container className="flex h-full items-center pt-20 lg:pt-0">
           <motion.div
