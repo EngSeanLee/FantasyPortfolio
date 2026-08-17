@@ -71,7 +71,17 @@ export function VignetteZoomDemo() {
               exit={{ scale: 1 }}
               transition={{ duration: prefersReducedMotion ? 0 : 2.1, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Image src={heroArt} alt="" fill priority sizes="100vw" className="object-cover" />
+              {/* unoptimized: this overlay only mounts when the user actively
+                  triggers the zoom, so paying for the full-resolution file
+                  here is the right tradeoff. Critically, it also sidesteps
+                  a real Next/Image bug for this use case: the responsive
+                  `sizes` system picks a resolution variant based on the
+                  image's laid-out CSS size, which is captured *before* the
+                  CSS scale() transform applied above — so without this, the
+                  browser can fetch a much lower-res variant than the source
+                  actually contains and stretch that, no matter how high-res
+                  the source file is. */}
+              <Image src={heroArt} alt="" fill priority unoptimized className="object-cover" />
             </motion.div>
 
             <motion.div
