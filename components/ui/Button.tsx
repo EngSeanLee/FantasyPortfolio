@@ -24,8 +24,13 @@ export function Button({ href, variant = "primary", className, children, onClick
   const classes = cn(base, variants[variant], className);
 
   if (href) {
+    const isExternal = href.startsWith("http");
     return (
-      <Link href={href} className={classes}>
+      <Link
+        href={href}
+        className={classes}
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
         {children}
       </Link>
     );

@@ -32,7 +32,7 @@ Read this before anything else below; it tells you what's real vs. aspirational 
 **Not yet built (Phases 3–4 of the interaction pivot):**
 - The three Phase 2 interaction pieces (System Map, Architecture toggle, About areas) are now all shipped — see Section 12 for what's next.
 
-**Also outstanding (not a design problem, a data problem):** `content/site.ts → links` holds placeholder LinkedIn/email URLs and a null résumé file. Wire these before shipping — see Section 15.
+**Also outstanding (not a design problem, a data problem):** `content/site.ts → links` — LinkedIn and email are now real; `resumeFile` is still `null` pending a PDF. See Section 15.
 
 ---
 
@@ -558,6 +558,7 @@ the Quality Gate in Section 13, including the new System Map / toggle / About ga
 
 Flagging so it doesn't get lost while the interaction-pivot work above is in progress:
 
-- `content/site.ts → links` — placeholder LinkedIn/email URLs, null résumé file. Replace with real values before this site is shareable with recruiters.
-- Verify `/contact` actions (email/LinkedIn/résumé) actually resolve once the above is fixed.
+- `content/site.ts → links` — ✅ LinkedIn (`https://www.linkedin.com/in/engseanlee`) and email (`lee.aisolutions@gmail.com`) are wired. `resumeFile` is still `null` (deliberately deferred) — `/resume`'s download button correctly shows "PDF coming soon" instead of a broken link in the meantime; add the PDF and set this to unblock it.
+- `components/ui/Button.tsx` and `Footer`'s LinkedIn link now open external (`http`) links in a new tab with `rel="noopener noreferrer"` — added alongside the real URL so a recruiter clicking LinkedIn doesn't navigate away from the portfolio tab entirely. `mailto:` links stay same-tab.
+- Verified `/contact`, `/resume`, and the Footer/`ClosingCta` links resolve correctly with the real values.
 - No SEO/analytics/deploy-pipeline decisions have been made yet in any doc — out of scope for this revision, but worth a dedicated pass before public launch.

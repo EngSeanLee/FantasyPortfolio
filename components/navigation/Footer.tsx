@@ -39,6 +39,8 @@ export function Footer() {
             <li>
               <a
                 href={links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm text-stone-dark transition-colors hover:text-sage-dark"
               >
                 LinkedIn

@@ -19,10 +19,10 @@ export const nav = [
 // intentionally omits since the brand mark already links there.
 export const railNav = [{ label: "Home", href: "/", descriptor: "The Meadow" }, ...nav];
 
-// Placeholders — wire these up when real links / files are available.
+// Résumé file is still a placeholder — wire it up once a PDF is available.
 export const links = {
-  linkedin: "#",
-  email: "mailto:hello@example.com",
+  linkedin: "https://www.linkedin.com/in/engseanlee",
+  email: "mailto:lee.aisolutions@gmail.com",
   resumeFile: null as string | null,
 };
 
